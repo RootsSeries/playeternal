@@ -11,24 +11,65 @@
      <!-- Social embed image -->
      <meta property="og:image" content="https://rootseternal.github.io/favicon.png">
      <meta property="og:image:type" content="image/png">
-     <meta property="og:image:width" content="1920">
-     <meta property="og:image:height" content="1080">
+     <meta property="og:image:width" content="4096">
+     <meta property="og:image:height" content="4096">
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
+    <div class="loadingview" id="loadingparent">
+      <div></div>
+      <div class="spinnerholder">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>
+          <div class=spinnerparent>
+            <img class="spinner" src="spinner.png">
+          </div>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div></div>
+      <div></div>
+      <div class="loadingframe" id="loadingframe">
+        <div class="loadingbar" id="loadingbar"></div>
+      </div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <canvas id="unity-canvas" style="background: #231F20"></canvas>
-    <script src="Build/roots-eternal.loader.js"></script>
     <script>
+      setTimeout(() => {
+        document.getElementById("loadingparent").style.opacity = "1";
+      }, 10);
+    </script>
+    <script src="Build/rootseternal.github.io.loader.js"></script>
+    <script>
+      function unitySetLoaderProgressTo(progress){
+        document.getElementById('loadingbar').style.right = `${(1-progress) * 100}%`
+        if (progress > 0.99){
+          document.getElementById("loadingparent").style.opacity = "0";
+          setTimeout(() => {
+            document.getElementById("loadingparent").remove();
+          },500)
+        }
+      }
+
       createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/roots-eternal.data",
-        frameworkUrl: "Build/roots-eternal.framework.js",
-        codeUrl: "Build/roots-eternal.wasm",
+        dataUrl: "Build/rootseternal.github.io.data.unityweb",
+        frameworkUrl: "Build/rootseternal.github.io.framework.js.unityweb",
+        codeUrl: "Build/rootseternal.github.io.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Roots: Eternal",
-        productVersion: "0.1.0",
+        companyName: "RootsTeam",
+        productName: "RootsEternal",
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-      });
+      }, (progress) => unitySetLoaderProgressTo(progress));
     </script>
   </body>
 </html>
